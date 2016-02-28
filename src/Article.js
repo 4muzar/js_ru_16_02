@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import CommentList from './CommentList'
 import toggleOpen from './HOC/toggleOpen'
-import showTooltip from './HOC/showTooltip'
+import hinted from './HOC/hinted'
 import CSSTransition from 'react-addons-css-transition-group'
 require('./style.css')
 
@@ -63,4 +63,4 @@ class Article extends Component {
     }
 }
 
-export default toggleOpen(showTooltip(Article))
+export default toggleOpen(hinted(Article))
