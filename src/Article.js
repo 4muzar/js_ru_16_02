@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import CommentList from './CommentList'
 import toggleOpen from './HOC/toggleOpen'
+import showTooltip from './HOC/showTooltip'
 import CSSTransition from 'react-addons-css-transition-group'
 require('./style.css')
 
@@ -9,11 +10,11 @@ class Article extends Component {
         article: PropTypes.object,
 
         isOpen: PropTypes.bool,
-        toggleOpen: PropTypes.func
+        toggleOpen: PropTypes.func,
+        
+        isTooltipShown: PropTypes.bool,
+        toggleTooltip: PropTypes.func
     };
-
-    componentDidMount() {
-    }
 
     render() {
         return (
@@ -31,7 +32,7 @@ class Article extends Component {
         const { title } = this.props.article
         const selectedStyle = this.props.selected ? {color: 'red'} : null;
         return  (
-            <h3 style = {selectedStyle} onClick={this.props.toggleOpen}>
+            <h3 style = {selectedStyle} onClick={this.props.toggleOpen} onMouseOver={this.onTitleMouseOver.bind(this)} onMouseOut={this.onTitleMouseOut.bind(this)}>
                 {title}
             </h3>
         )
@@ -48,10 +49,18 @@ class Article extends Component {
         )
     }
 
+    onTitleMouseOver() {
+        this.props.toggleTooltip(true, this.props.article.body);
+    }
+
+    onTitleMouseOut() {
+        this.props.toggleTooltip(false, this.props.article.body);
+    }
+
     select(ev) {
         ev.preventDefault()
         this.props.select()
     }
 }
 
-export default toggleOpen(Article)
+export default toggleOpen(showTooltip(Article))

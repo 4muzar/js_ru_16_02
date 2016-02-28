@@ -24,3 +24,13 @@
     opacity: 1;
     transition: opacity .5s ease-in;
 }
+
+.hinted-block-wrap {
+	position: relative;
+}
+
+.hint {
+	position: absolute;
+	top: 0;
+	left: 150px;
+}
