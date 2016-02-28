@@ -1,20 +1,25 @@
 import React, { Component } from 'react'
 import CommentList from './CommentList'
 import toggleOpen from './mixins/toggleOpen'
+import hinted from './mixins/hinted'
+require('./style.css')
 
 const Article = React.createClass({
-    mixins: [toggleOpen],
+    mixins: [toggleOpen, hinted],
 
     componentDidMount() {
-        console.log('---', this.refs.container);
+        
     },
 
     render() {
         return (
-            <div ref="container">
-                <a href = "#" onClick = {this.select} >select</a>
-                {this.getTitle()}
-                {this.getBody()}
+            <div className = {"hinted-block-wrap"}>
+                <div ref="container">
+                    <a href = "#" onClick = {this.select} >select</a>
+                    {this.getTitle()}
+                    {this.getBody()}
+                </div>
+                {this.getTooltip()}
             </div>
         )
     },
@@ -23,7 +28,7 @@ const Article = React.createClass({
         const { title } = this.props.article
         const selectedStyle = this.props.selected ? {color: 'red'} : null;
         return  (
-            <h3 style = {selectedStyle} onClick={this.toggleOpen}>
+            <h3 style = {selectedStyle} onClick={this.toggleOpen} onMouseOver={this.onTitleMouseOver} onMouseOut={this.onTitleMouseOut}>
                 {title}
             </h3>
         )
@@ -38,6 +43,19 @@ const Article = React.createClass({
                 <CommentList comments = {article.comments || []} />
             </div>
         )
+    },
+
+    getTooltip() {
+        if (!this.state.isTooltipShown) return null;
+        return <span className = {"hint"}>{this.text}</span>
+    },
+
+    onTitleMouseOver() {
+        this.toggleTooltip(true, this.props.article.body);
+    },
+
+    onTitleMouseOut() {
+        this.toggleTooltip(false, this.props.article.body);
     },
 
     select(ev) {
