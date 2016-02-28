@@ -13,8 +13,6 @@ class Article extends Component {
     };
 
     componentDidMount() {
-        console.log('---', this.refs.container);
-        console.log('test');
     }
 
     render() {

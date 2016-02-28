@@ -12,7 +12,7 @@ const Article = React.createClass({
     render() {
         return (
             <div ref="container">
-                <a href = "#" onClick = {this.select.bind(this)} >select</a>
+                <a href = "#" onClick = {this.select} >select</a>
                 {this.getTitle()}
                 {this.getBody()}
             </div>
