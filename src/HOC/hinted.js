@@ -8,6 +8,7 @@ export default function (CustomComponent) {
         }
 
         render() {
+            //плохо менять структуру в HOC
             return (
                 <div className = {"hinted-block-wrap"}>
                     <CustomComponent
