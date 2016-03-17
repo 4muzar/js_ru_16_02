@@ -1,5 +1,5 @@
 import SimpleStore from './SimpleStore'
-import { ADD_COMMENT, LOAD_COMMENTS_FOR_ARTICLE, _SUCCESS, _FAIL, _START } from '../actions/constants'
+import { ADD_COMMENT, LOAD_COMMENTS, LOAD_COMMENTS_FOR_ARTICLE, _SUCCESS, _FAIL, _START } from '../actions/constants'
 import AppDispatcher from '../dispatcher'
 
 class CommentStore extends SimpleStore {
@@ -18,6 +18,10 @@ class CommentStore extends SimpleStore {
 
                 case LOAD_COMMENTS_FOR_ARTICLE + _SUCCESS:
                     response.forEach(this.add)
+                    break
+
+                case LOAD_COMMENTS + _SUCCESS:                    
+                    response.records.forEach(this.add)
                     break
 
                 default: return

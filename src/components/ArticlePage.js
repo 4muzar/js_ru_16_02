@@ -28,7 +28,6 @@ class ArticlePage extends Component {
     }
 
     render() {
-        console.log('---', this.props.location.query);
         return (
             <div>
                 <Article article = {this.state.article}/>
