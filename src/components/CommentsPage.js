@@ -2,21 +2,21 @@ import React, { Component, PropTypes } from 'react'
 import { commentStore } from '../stores'
 import { loadComments } from '../actions/comment'
 import Comment from './Comment'
+import { Link } from 'react-router'
+const style = {
+    'marginRight': '5px'
+}
 
 class CommentsPage extends Component {
 	static LIMIT = 10;
 
 	constructor(props) {
         super()
-        const { params: { page }} = props
-        const data = {
-        	limit: 10,
-        	offset: (page - 1) * CommentsPage.LIMIT
-        }        
-        setTimeout(() => loadComments(data), 0)
+
+        this.loadComments(props);
         this.state = {
-        	page: page,
-            comments: commentStore.getAll()
+            comments: [],
+            total: 0
         }
     }
 
@@ -28,21 +28,44 @@ class CommentsPage extends Component {
         commentStore.removeChangeListener(this.commentsLoaded)
     }
 
+    componentWillReceiveProps(props) {
+    	this.loadComments(props);
+    }
+
     render() {
-    	const comments = this.state.comments.map(comment => <li key={comment.id}><Comment comment = {comment}/></li>)    	
+    	const comments = this.state.comments.map(comment => <li key={comment.id}><Comment comment = {comment}/></li>)
         return (
             <div>
-                <h1>Comments page {this.state.page}</h1>
+                <h1>Comments page {this.props.params.page}</h1>
                 <ul>
                 	{comments}
                 </ul>
+                {this.getPaginator()}
             </div>
         )
     }
 
+    getPaginator() {    	
+    	return new Array(Math.ceil(this.state.total / CommentsPage.LIMIT) + 1).join('1').split('').map(
+    		(el, index) => {    			
+    			return <Link key={index} style={style} activeStyle = {{color: 'red'}} to={`/comments/${index+1}` }>
+                    {index + 1}
+                </Link>
+    		});
+    }
+
+    loadComments(props) {
+    	const data = {
+        	limit: CommentsPage.LIMIT,
+        	offset: (props.params.page - 1) * CommentsPage.LIMIT
+        }
+        setTimeout(() => loadComments(data), 0)    	
+    }
+
     commentsLoaded = () => {
     	this.setState({
-    		comments: commentStore.getAll()
+    		comments: commentStore.getAll(),
+    		total: commentStore.getTotal()
     	})
     }
 }

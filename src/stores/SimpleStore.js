@@ -23,6 +23,14 @@ class SimpleStore extends EventEmitter {
         this.removeListener(CHANGE_EVENT, callback)
     }
 
+    getTotal(value) {
+        return this.__total || 0;
+    }
+
+    setTotal(value) {
+        this.__total = value;
+    }
+
     getAll() {
         return this.__items.slice().sort((a,b) => a.id - b.id)
     }
@@ -34,6 +42,10 @@ class SimpleStore extends EventEmitter {
     add = (item) => {
         this.delete(item.id)
         this.__items.push(new Model(item, this.__stores))
+    }
+
+    deleteAll() {
+        this.__items = []
     }
 
     delete(id) {

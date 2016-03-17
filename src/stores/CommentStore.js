@@ -20,8 +20,10 @@ class CommentStore extends SimpleStore {
                     response.forEach(this.add)
                     break
 
-                case LOAD_COMMENTS + _SUCCESS:                    
+                case LOAD_COMMENTS + _SUCCESS:
+                    this.deleteAll()
                     response.records.forEach(this.add)
+                    this.setTotal(response.total)
                     break
 
                 default: return
