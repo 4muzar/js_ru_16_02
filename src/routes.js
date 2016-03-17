@@ -15,9 +15,8 @@ export default (
             <Route path="/new" component = { NewArticlePage} />
             <Route path="/articles/:id" component = { ArticlePage } />
         </Route>
-        <Route path="/comments" component = {CommentsPage}>
-
-        </Route>
+        <Route path="/comments/:page" component = {CommentsPage}></Route>
+        <Redirect from = "/comments" to="/comments/1" />
         <Redirect from = "/:id" to="/articles/:id" />
         <Route path = "*" component = {NotFound} />
     </Router>

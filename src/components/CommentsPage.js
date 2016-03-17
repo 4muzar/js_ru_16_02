@@ -4,11 +4,18 @@ import { loadComments } from '../actions/comment'
 import Comment from './Comment'
 
 class CommentsPage extends Component {
+	static LIMIT = 10;
+
 	constructor(props) {
         super()
-        const { params: { id }} = props
-        setTimeout(() => loadComments(), 0)
+        const { params: { page }} = props
+        const data = {
+        	limit: 10,
+        	offset: (page - 1) * CommentsPage.LIMIT
+        }        
+        setTimeout(() => loadComments(data), 0)
         this.state = {
+        	page: page,
             comments: commentStore.getAll()
         }
     }
@@ -25,7 +32,7 @@ class CommentsPage extends Component {
     	const comments = this.state.comments.map(comment => <li key={comment.id}><Comment comment = {comment}/></li>)    	
         return (
             <div>
-                <h1>All comments page for articles</h1>
+                <h1>Comments page {this.state.page}</h1>
                 <ul>
                 	{comments}
                 </ul>
