@@ -1,15 +1,17 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
-import { articlesStore, usersStore } from '../stores'
+import { articlesStore, usersStore, appStore } from '../stores'
 import ArticleList from './ArticleList'
 import { loadAllArticles, createNewArticle } from './../actions/articles'
 import { login } from '../actions/user'
+import { changeLang } from '../actions/app'
 
 class Container extends Component {
     state = {
         articles: articlesStore.getOrLoadAll(),
         loading: articlesStore.loading,
-        currentUser: usersStore.currentUser
+        currentUser: usersStore.currentUser,
+        lang: appStore.getLang()
     }
 
     componentDidMount() {
@@ -37,7 +39,8 @@ class Container extends Component {
         if (loading) return <h3>Loading...</h3>
         return (
             <div>
-                <a href = "#" onClick = {this.login}>Login</a>
+                <a href = "#" onClick = {this.login}>Login</a><br/>
+                Change lang: <a href = "#" onClick = {this.changeLang.bind(this, 'ru')}>ru</a> <a href = "#" onClick = {this.changeLang.bind(this, 'en')}>en</a>
                 {this.getMenu()}
                 {this.props.children}
             </div>
@@ -49,10 +52,14 @@ class Container extends Component {
         login()
     }
 
+    changeLang (lang) {
+        changeLang({lang})
+    }
+
     getMenu() {
         const links = this.state.articles.map((article) =>
             <li key={article.id}>
-                <Link to={`/articles/${article.id}`}
+                <Link to={`/${this.state.lang}/articles/${article.id}`}
                     activeClassName = "active"
                     activeStyle = {{color: 'red'}}
                 >

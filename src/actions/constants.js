@@ -9,6 +9,8 @@ export const LOAD_COMMENTS_FOR_PAGE = 'LOAD_COMMENTS_FOR_PAGE'
 
 export const LOGIN = 'LOGIN'
 
+export const CHANGE_LANG = 'CHANGE_LANG'
+
 export const _START = '_START'
 export const _SUCCESS = '_SUCCESS'
 export const _FAIL = '_FAIL'

@@ -10,17 +10,18 @@ import CommentsIndex from './components/CommentsIndex'
 import CommentsPaginationPage from './components/CommentsPaginationPage'
 
 export default (
-    <Router history = {history} >
-        <Route path="/articles" component = {Container}>
-            {/*<IndexRedirect to="/articles/1" />*/}
-            <IndexRoute component = {ArticleIndexPage}/>
-            <Route path="/new" component = { NewArticlePage} />
-            <Route path="/articles/:id" component = { ArticlePage } />
-        </Route>
-        <Route path="/comments" component = {CommentsIndex}>
-            <Route path = ":page" component = {CommentsPaginationPage} />
-        </Route>
-        <Redirect from = "/:id" to="/articles/:id" />
-        <Route path = "*" component = {NotFound} />
+    <Router history = {history} >        
+            <Route path="/:lang/articles" component = {Container}>
+                {/*<IndexRedirect to="/articles/1" />*/}
+                <IndexRoute component = {ArticleIndexPage}/>
+                <Route path="/:lang/new" component = { NewArticlePage} />
+                <Route path="/:lang/articles/:id" component = { ArticlePage } />
+            </Route>
+            <Route path="/comments" component = {CommentsIndex}>
+                <Route path = ":page" component = {CommentsPaginationPage} />
+            </Route>
+            <Redirect from = "/:id" to="/articles/:id" />
+            <Route path = "*" component = {NotFound} />
+        
     </Router>
 )
