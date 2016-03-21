@@ -7,7 +7,7 @@ class AppStore extends SimpleStore {
     constructor(...args) {
         super(...args)
 
-        this.__lang = location.pathname.replace(/^\/(\w*).*/, '$1')        
+        this.__lang = this.getLangFromURL()
 
         this.dispatchToken = AppDispatcher.register((action) => {
             const { type, data, response, error } = action
@@ -23,10 +23,21 @@ class AppStore extends SimpleStore {
                     break;
             }
         })
+
+        window.addEventListener('popstate', this.onpopstate.bind(this))
     }
 
     getLang() {
         return this.__lang
+    }
+
+    getLangFromURL() {
+        return location.pathname.replace(/^\/(\w*).*/, '$1')
+    }
+
+    onpopstate () {
+        this.__lang = this.getLangFromURL()
+        this.emitChange()
     }
 }
 

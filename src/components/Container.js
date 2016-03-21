@@ -6,6 +6,7 @@ import ArticleList from './ArticleList'
 import { loadAllArticles, createNewArticle } from './../actions/articles'
 import { login } from '../actions/user'
 import { changeLang } from '../actions/app'
+import history from '../history'
 
 class Container extends Component {
     state = {
@@ -60,7 +61,6 @@ class Container extends Component {
 
     changeLangHandler (lang, ev) {
         ev.preventDefault()
-        console.log(arguments)
         changeLang({lang})
     }
 
