@@ -8,13 +8,21 @@ import NotFound from './components/NotFound'
 import ArticleIndexPage from './components/ArticleIndexPage'
 import CommentsIndex from './components/CommentsIndex'
 import CommentsPaginationPage from './components/CommentsPaginationPage'
+import { usersStore, appStore } from './stores'
+
+function checkUser(nextState, replace) {    
+    if (!usersStore.currentUser) {
+        replace('/' + appStore.getLang() + '/articles')
+    }
+}
 
 export default (
     <Router history = {history} >        
             <Route path="/:lang/articles" component = {Container}>
                 {/*<IndexRedirect to="/articles/1" />*/}
                 <IndexRoute component = {ArticleIndexPage}/>
-                <Route path="/:lang/new" component = { NewArticlePage} />
+                <Route path="/:lang/new" component = { NewArticlePage} 
+                    onEnter = {checkUser} />
                 <Route path="/:lang/articles/:id" component = { ArticlePage } />
             </Route>
             <Route path="/comments" component = {CommentsIndex}>
