@@ -1,15 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { increment } from '../actions/counter'
-import { deleteArticle } from '../actions/articles'
 import { getRelation } from '../utils'
 import ArticleList from '../components/ArticleList'
 
 class AppContainer extends Component {
     static propTypes = {
         counter: PropTypes.number,
-        increment: PropTypes.func,
-        deleteArticle: PropTypes.func
+        increment: PropTypes.func        
     };
 
     render() {
@@ -31,6 +29,5 @@ export default connect((state) => {
     const {counter, articles} = state
     return {counter, articles}
 }, {
-    increment,
-    deleteArticle
+    increment
 })(AppContainer)

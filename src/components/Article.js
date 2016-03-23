@@ -7,7 +7,8 @@ import { deleteArticle } from './../actions/articles'
 
 class Article extends Component {
     static propTypes = {
-        article: PropTypes.object
+        article: PropTypes.object,
+        deleteArticle: PropTypes.func
     };
 
 /*
