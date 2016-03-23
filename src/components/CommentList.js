@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import Comment from './Comment'
 import toggleOpen from './../HOC/toggleOpen'
-import { addComment, loadCommentsForArticle } from './../actions/comment'
-import translate from '../HOC/Translate'
+import { getRelation } from '../utils'
+// import { addComment, loadCommentsForArticle } from './../actions/comment'
+// import translate from '../HOC/Translate'
 
 class CommentList extends Component {
     static propTypes = {
@@ -21,16 +22,9 @@ class CommentList extends Component {
         comment: ''
     }
 
-    componentWillReceiveProps(newProps) {
-        if (!newProps.isOpen || this.props.isOpen || this.checkComments(newProps)) return
-        loadCommentsForArticle({
-            articleId: newProps.article.id
-        })
-    }
-
     render() {
-        const { isOpen, toggleOpen, translate } = this.props
-        const actionText = translate(isOpen ? 'hide comments' : 'show comments')
+        const { isOpen, toggleOpen } = this.props
+        const actionText = isOpen ? 'hide comments' : 'show comments'
 
         return (
             <div>
@@ -41,14 +35,11 @@ class CommentList extends Component {
     }
 
     getBody() {
-//        console.log('--- context: ', this.context.user);
-        const { article, isOpen, translate } = this.props
-        if (!isOpen) return null
-        if (!this.checkComments()) return <h3>{translate('loading')}...</h3>
-        const commentList = article.getRelation('comments').map(comment => <li key={comment.id}><Comment comment = {comment}/></li>)
+        const { article, isOpen } = this.props
+        if (!isOpen) return null        
+        const commentList = getRelation(article, 'comments').map(comment => <li key={comment.id}><Comment comment = {comment}/></li>)    
         return (
             <div>
-                user: {this.context.user}
                 <ul>{isOpen ? commentList : null}</ul>
                 <input value = {this.state.comment} onChange = {this.commentChange}/>
                 <a href = "#" onClick = {this.submitComment}>add comment</a>
@@ -83,4 +74,4 @@ class CommentList extends Component {
     }
 }
 
-export default translate(toggleOpen(CommentList))
+export default toggleOpen(CommentList)
