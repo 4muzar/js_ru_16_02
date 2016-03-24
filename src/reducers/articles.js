@@ -8,6 +8,7 @@ export default (articles = defaultArticles, action) => {
         case DELETE_ARTICLE: return articles.filter((article) => article.id != data.id)
         case ADD_COMMENT: 
         	const article = articles.filter((article) => article.id == data.articleId)[0]
+        	//мутция данных - очень плохо в redux
             article.comments = (article.comments || []).concat(data.id)
         	return articles
     }
